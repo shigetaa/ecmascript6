@@ -21,6 +21,7 @@ function sample() {
 	var num = 60;
 	if (num > 50) {
 		let num = 0;
+		console.log(num);
 	}
 	console.log(num);
 }
@@ -31,8 +32,36 @@ sample();
 node let.js
 ```
 ```bash
+0
 60
 ```
 
 関数もコードブロックなので、`let` 変数のスコープになります。
 モジュールあるいはアプリケーション全体をスコープとするグローバル変数以外は、`let` を使うのが、`var` よりもセキュアな変数定義として好ましい方法です。
+
+## const 変数
+`const` 変数には、再代入が出来ません。
+コードで値を変えたくない変数には、`let` `var` でなく、`const` を使うべきです。
+典型的な使用例として、Node.jsのライブラリやモジュールをロードするときに `const` を使用します。
+
+以下の`const.js` 例を見てく考えてみてください。
+```javascript
+function sample(val) {
+	const price = 1000;
+	let price = price - val;
+	console.log(price);
+}
+sample(500);
+```
+以下のコマンドを実行してみます。
+```bash
+node const.js
+```
+```bash
+const.js:3
+        let price = price - val;
+            ^
+SyntaxError: Identifier 'price' has already been declared
+```
+もし、const 変数に値を再代入しようとしたら、「Duplicate Declaration Error(多重宣言エラー)」になります。
+
