@@ -65,3 +65,25 @@ SyntaxError: Identifier 'price' has already been declared
 ```
 もし、const 変数に値を再代入しようとしたら、「Duplicate Declaration Error(多重宣言エラー)」になります。
 
+## 文字列補完
+文字列の中に変数値を入れて出力あるいはロギングするとき、ES6以前はその変数の前後に文字列を付加する必要がありました。
+```javascript
+var str = "大阪";
+console.log("ようこそ " + str + " へいらっしゃいました。");
+```
+
+ES6では、バックティック と `${}` を使って、文字列の中に変数を埋め込む補完が可能です。
+```javascript
+var str = "大阪";
+console.log(`ようこそ ${str} へいらっしゃいました。`);
+```
+以下のコマンドを実行してみます。
+```bash
+node console_log.js
+```
+```bash
+ようこそ 大阪 へいらっしゃいました。
+ようこそ 大阪 へいらっしゃいました。
+```
+その結果、コードがきれいになり、読みやすく編集もしやすくなります。
+
