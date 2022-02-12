@@ -72,7 +72,7 @@ var str = "大阪";
 console.log("ようこそ " + str + " へいらっしゃいました。");
 ```
 
-ES6では、バックティック と `${}` を使って、文字列の中に変数を埋め込む補完が可能です。
+ES6では、バッククォート `` ` `` と `${}` を使って、文字列の中に変数を埋め込む補完が可能です。
 ```javascript
 var str = "大阪";
 console.log(`ようこそ ${str} へいらっしゃいました。`);
@@ -87,3 +87,46 @@ node console_log.js
 ```
 その結果、コードがきれいになり、読みやすく編集もしやすくなります。
 
+## アロー関数
+アロー関数は、ES6によって、より簡潔に読みやすくなったコードの一例です。
+アローと呼ばれる矢印のシンボル `=>` と、従来の関数とは異なる構文によって、複数行の関数を1行にする事ができます。
+
+**例 function キーワードで関数を定義する**
+```javascript
+function printName(name) {
+	console.log(`My name is ${name}`);
+}
+```
+上記の例を以下の様に書き直すことができます。
+
+**例 アロー関数で定義する**
+```javascript
+let printName = name => console.log(`My name is ${name}`);
+```
+
+ES6の矢印関数で最も重要なのは、スコープの外側から`this`変数値が保持されるというポイントです。
+
+**例 関数の中で、this キーワードを使う**
+```javascript
+let dog = {
+	name: "Taro",
+	printNameAfterTime: function() {
+		setTimeout(function(){
+			console.log(`My name is ${this.name}`);
+		}, 1000);
+	}
+}
+```
+上記の例では、`dog.printNameAfterTime()`を実行しても、出力するのは、`My name is undefined` と出力します。
+これは、`this.name` が `setTimeout` 関数のスコープに無いからです、けどアロー関数で下記の様に記述すれば、`this.name` が　`setTimeout` 関数でも参照する事ができます。
+
+```javascript
+let dog = {
+	name: "Taro",
+	printNameAfterTime: function() {
+		setTimeout(() => {
+			console.log(`My name is ${this.name}`);
+		}, 1000);
+	}
+}
+```
