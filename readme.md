@@ -130,3 +130,33 @@ let dog = {
 	}
 }
 ```
+
+## REPL
+REPLとは、WebブラウザのChromeにあるコンソールウィンドウに似た対話的環境で、どんなJaveScriptコードでも実行できます。
+また、アプリケーションの各部テストするために、Node.jsモジュールをrequireすることも可能です。
+
+### REPLでJavaScriptを実行する
+REPLを起動するには、コンピュータのターミナルウィンドウで `node` と入力します。
+REPLは入力するコマンドに即座に応答するNode.jsアプリケーションだと考えることができます。
+つまり、JavaScriptコードを、そのためのファイルに書いてから実行する手間を省いて、そのJavaScriptコードをREPLのウィンドウに直接入力できるのです。
+
+以下の様にREPLに、いくつかの変数を定義してみましょう。
+すると、JavaScriptステート面とを実行する度に
+REPLは、そおステートメントの戻り値を出力します。
+変数に値を代入してものそステートメントの戻り値は未定義です。
+
+```bash
+node
+```
+```javascript
+> let x = 42;
+undefined
+> let sentence = "The meaning of life is ";
+undefined
+```
+では、これらの変数に何らかの演算を実行してみましょう。
+```javascript
+> sentence + x;
+The meaning of life is 42
+```
+この様に、REPLで変数を連結することが簡単に実行できました。
