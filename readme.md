@@ -160,3 +160,52 @@ undefined
 The meaning of life is 42
 ```
 この様に、REPLで変数を連結することが簡単に実行できました。
+
+### アプリケーション開発でREPLを使う
+REPLには、もうひとつ、Node.jsアプリケーションのコードに `repl` モジュールをいれて使う有益な使い方があります。
+プロジェクトで作成するカスタムモジュールの数が増えてくると、それまでに書いたコードの機能をテストするために、それらのファイルを全てREPLにロードするのが面倒になってきます。
+例えば下記のコードで表すように、2つの数をかけ合わせる関数だけを含む`multiply.js`というモジュールを書いたとします。
+ところが掛け算を含む機能のテストでは、REPLに`require("./multiply")`と入力して、そのモジュールをロードするだけでなく、それまでに作ったほかのモジュールも全部ロードすることになります。
+そればかりか、REPLのセッションを行うたびに、それらのrequire文を、毎回入力する必要があるのです。
+
+```javascript
+module.exports = {
+	multiply: (x, y) => {
+		return x * y;
+	}
+};
+```
+
+個々のREPLセッションで自作のモジュール群を`require`する代わりに、自作のモジュールにREPLを持ち込むことができます。
+以下の例では、プロフェクトの中で`repl`モジュールを使う方法を示しています。
+プロジェクトディレクトリの中に、`customRepl.js`というファイル名でモジュールを作ります。
+その中で、あなたが同時にテストしていモジュールを、すべて`require`します。
+そして、このファイルでは`repl`モジュールを`require`してから、REPLサーバーを起動します。
+このREPLサーバーは、Node.jsのHTTPサーバーと同じくコンテクストを持っていて、その中にカスタム変数をロードできます。
+REPLサーバーを起動した後、ここでは`name`変数と自作の`multiply`モジュールを追加してます。
+
+```javascript
+const repl = require("repl");
+const replServer = repl.start({
+    prompt: "> ",
+});
+replServer.context.name = "Shigeta";
+replServer.context.multiply = require("./multiply").multiply;
+```
+
+実行するには、以下のコマンドを実行します。
+
+```bash
+node customRepl.js
+```
+
+`customRepl.js`で定義した環境で`REPL`セッションで操作できるようになります。
+
+```bash
+> multipy(2, 3);
+6
+> name
+'Shigeta'
+```
+
+ES6は、いまでは開発コミュニティで広く使われているので、JavaScriptにあける、この最新かつ最大の変化を反映したコードの書き始めることは重要です。REPL と JavaScript の使い方に慣れてしまえば、アプリケーションを素早く開発するのが容易になるはずです。
